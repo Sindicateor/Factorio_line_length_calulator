@@ -4,6 +4,7 @@ from tkinter import ttk
 
 CRAFTING_SPEEDS = [0.5, 0.75, 1.25]
 PATH_SPEEDS = [7.5, 15, 22.5]
+# path == side of a belt
 
 
 def load_recipe_data():
@@ -119,7 +120,7 @@ class manage_ingredient:
         self.label.grid(row=row, column=0)
 
         self.path_select = tk.OptionMenu(
-            self.master, self.paths, *[1, 2])
+            self.master, self.paths, *[1, 2, 3])
         self.path_select.grid(row=row, column=1)
 
         self.paths.trace("w", self.dropdown_change)
@@ -142,8 +143,8 @@ class output_calculator:
     def __init__(self, master):
         self.master = master
 
-        self.c_speed = 0
-        self.p_speed = 0
+        self.c_speed = 0.5
+        self.p_speed = 7.5
         self.recipe_time = 0.5
         self.recipe_name = 'none'
         self.amount = 0
@@ -156,17 +157,22 @@ class output_calculator:
         # todo calulate the output! update the label
 
     def update_output(self):
-        # print(self.c_speed)
-        # print(self.p_speed)
-        # print(self.recipe_time)
+        crafting_time = float(self.recipe_time) / \
+            float(self.c_speed)  # seconds at c_speed
+        # belts have speed * crafting time number of items available for the assembly line
+        path_items_per_sec = float(self.p_speed) * crafting_time
+        self.length = path_items_per_sec/float(self.amount)
+        self.out_label.configure(text=str(self.length))
+
         pass
 
     def update_recipe(self, recipe_name, amount, paths, time):
         self.recipe_time = time
+        # amount / number of paths as the load is split evenly across the paths
         if self.recipe_name == recipe_name:
-            self.amount = max(float(self.amount), float(amount) * float(paths))
+            self.amount = max(float(self.amount), float(amount) / float(paths))
         else:
-            self.amount = amount * paths
+            self.amount = float(amount) / float(paths)
         print(self.amount)
         self.recipe_name = recipe_name
         self.update_output()

@@ -1,6 +1,7 @@
 import json
 
 # TODO: fix the liquid related recipes!
+# currently assuming that all recipies output only one!
 
 
 def write_temp(text):
