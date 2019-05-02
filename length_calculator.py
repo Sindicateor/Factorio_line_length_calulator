@@ -81,8 +81,11 @@ class manage_ingredients:
         self.output = output
         self.recipe_data = recipe_data
 
-        self.label = tk.Label(self.master, text="Ingredients: ")
-        self.label.grid(row=4, column=0)
+        self.label1 = tk.Label(self.master, text="Ingredients: ")
+        self.label1.grid(row=3, column=0)
+
+        self.label2 = tk.Label(self.master, text="Belt sides: ")
+        self.label2.grid(row=3, column=1)
 
         self.ingredients_list = []
         for i in range(0, 6):
@@ -119,11 +122,11 @@ class manage_ingredient:
 
         self.label = tk.Label(
             self.master, text=self.name+': '+str(self.amount))
-        self.label.grid(row=row+5, column=0)
+        self.label.grid(row=row+4, column=0)
 
         self.path_select = tk.OptionMenu(
             self.master, self.paths, *[1, 2, 3])
-        self.path_select.grid(row=row+5, column=1)
+        self.path_select.grid(row=row+4, column=1)
 
         self.paths.trace("w", self.dropdown_change)
 
@@ -153,10 +156,11 @@ class output_calculator:
         self.amounts = [0, 0, 0, 0, 0, 0]
 
         self.label = tk.Label(self.master, text="Assembly line length: ")
-        self.label.grid(row=3, column=0)
+        self.label.grid(row=10, column=0)
 
-        self.out_label = tk.Label(self.master, text="Loading!")
-        self.out_label.grid(row=3, column=1)
+        self.out_label = tk.Label(
+            self.master, text="Loading!", background="grey", font='Helvetica 18 bold')
+        self.out_label.grid(row=10, column=1)
         # todo calulate the output! update the label
 
     def update_output(self):
