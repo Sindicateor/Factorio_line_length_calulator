@@ -5,6 +5,7 @@ from tkinter import ttk
 CRAFTING_SPEEDS = [0.5, 0.75, 1.25]
 PATH_SPEEDS = [7.5, 15, 22.5]
 # path == side of a belt
+# https://forums.factorio.com/viewtopic.php?t=41018
 
 
 def load_recipe_data():
