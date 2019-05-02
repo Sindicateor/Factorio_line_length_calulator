@@ -87,7 +87,7 @@ class manage_ingredients:
         self.ingredients_list = []
         for i in range(0, 6):
             self.ingredients_list.append(
-                manage_ingredient(self.master, output, 5+i))
+                manage_ingredient(self.master, output, i))
 
     def update_ingredients(self, recipe_name):
         self.recipe = self.recipe_data[recipe_name]
@@ -115,20 +115,21 @@ class manage_ingredient:
         self.recipe_time = 0.5
         self.paths = tk.IntVar(self.master)
         self.paths.set(1)
+        self.index = row
 
         self.label = tk.Label(
             self.master, text=self.name+': '+str(self.amount))
-        self.label.grid(row=row, column=0)
+        self.label.grid(row=row+5, column=0)
 
         self.path_select = tk.OptionMenu(
             self.master, self.paths, *[1, 2, 3])
-        self.path_select.grid(row=row, column=1)
+        self.path_select.grid(row=row+5, column=1)
 
         self.paths.trace("w", self.dropdown_change)
 
     def dropdown_change(self, *args):
         self.output.update_recipe(
-            self.recipe_name, self.amount, self.paths.get(), self.recipe_time)
+            self.recipe_name, self.amount, self.paths.get(), self.recipe_time, self.index)
 
     def update(self, recipe_name, name, amount, time):
         self.recipe_time = time
@@ -137,7 +138,7 @@ class manage_ingredient:
         self.amount = amount
         self.label.configure(text=self.name+': '+str(self.amount))
         self.output.update_recipe(
-            self.recipe_name, self.amount, self.paths.get(), self.recipe_time)
+            self.recipe_name, self.amount, self.paths.get(), self.recipe_time, self.index)
 
 
 class output_calculator:
@@ -149,8 +150,9 @@ class output_calculator:
         self.recipe_time = 0.5
         self.recipe_name = 'none'
         self.amount = 0
+        self.amounts = [0, 0, 0, 0, 0, 0]
 
-        self.label = tk.Label(self.master, text="Number: ")
+        self.label = tk.Label(self.master, text="Assembly line length: ")
         self.label.grid(row=3, column=0)
 
         self.out_label = tk.Label(self.master, text="Loading!")
@@ -167,14 +169,14 @@ class output_calculator:
 
         pass
 
-    def update_recipe(self, recipe_name, amount, paths, time):
+    def update_recipe(self, recipe_name, amount, paths, time, index):
         self.recipe_time = time
         # amount / number of paths as the load is split evenly across the paths
-        if self.recipe_name == recipe_name:
-            self.amount = max(float(self.amount), float(amount) / float(paths))
-        else:
-            self.amount = float(amount) / float(paths)
-        print(self.amount)
+        new_amount = float(amount) / float(paths)
+        if self.recipe_name != recipe_name:
+            self.amounts = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        self.amounts[index] = new_amount
+        self.amount = max(self.amounts)
         self.recipe_name = recipe_name
         self.update_output()
 
