@@ -232,15 +232,6 @@
     "time": "8",
     "ingredients": { "grenade": "7", "explosives": "5", "steel-plate": "5" }
   },
-  "coal": {
-    "name": "coal",
-    "time": "5",
-    "ingredients": {
-      "amount=10": "name=coal",
-      "amount=25": "name=heavy-oil",
-      "amount=50": "name=steam"
-    }
-  },
   "combat-shotgun": {
     "name": "combat-shotgun",
     "time": "10",

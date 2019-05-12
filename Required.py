@@ -5,7 +5,11 @@ PATH_SPEEDS = [7.5, 15, 22.5]
 
 TARGET = {
     'automation-science-pack': 100,
-    "chemical-science-pack": 100
+    "chemical-science-pack": 100,
+    "logistic-science-pack": 100,
+    "military-science-pack": 100,
+    "production-science-pack": 100,
+    "utility-science-pack": 100
 }
 
 
